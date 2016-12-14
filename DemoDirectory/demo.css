@@ -1,0 +1,13 @@
+#canvas {
+
+}
+#background {
+    display: none;
+}
+#ballon {
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    cursor: move;
+    opacity: 0.5;
+}
