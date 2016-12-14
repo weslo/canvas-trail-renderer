@@ -1,5 +1,4 @@
-Everything before the line containing only '---' will not be parsed
-
+/*
 ---
  name: Canvas Trail Renderer Experimentation
  description: Experimenting with emulating the Unity3D Trail Renderer component in HTML5 canvas.
@@ -11,3 +10,6 @@ Everything before the line containing only '---' will not be parsed
  ...
 
 Everything after the line containing only '...' will not be parsed
+*/
+
+<p>Experimenting with emulating the Unity3D Trail Renderer component in HTML5 canvas.</p>
