@@ -17,14 +17,14 @@ var Point = function(x, y) {
 function redraw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.beginPath();
-  ctx.arc(ball.x, ball.y, 10, 0, 2 * Math.PI);
+  ctx.arc(ball.pos.x, ball.pos.y, 10, 0, 2 * Math.PI);
   ctx.fill();
 }
 
 function mousemove(e) {
   if(dragging) {
-    ball.x = e.offsetX;
-    ball.y = e.offsetY;
+    ball.pos.x = e.offsetX;
+    ball.pos.y = e.offsetY;
     redraw();
   }
 }
