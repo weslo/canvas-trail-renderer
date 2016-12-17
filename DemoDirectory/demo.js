@@ -1,9 +1,13 @@
 var canvas, ctx;
 
 var dragging = false;
-var ball = new Point(0, 0);
 
-var line = Array;
+var ball;
+
+var Ball = function() {
+  this.pos = new Point(canvas.width / 2, canvas.height / 2);
+  this.line = Array;
+};
 
 var Point = function(x, y) {
   this.x = x;
@@ -41,8 +45,7 @@ window.onload = function() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 
-  posX = canvas.width / 2;
-  posY = canvas.height / 2;
+  ball = new Ball();
 
   canvas.addEventListener("mousemove", mousemove);
   canvas.addEventListener("mousedown", mousedown);
