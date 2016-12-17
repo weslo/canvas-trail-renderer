@@ -1,13 +1,6 @@
-var canvas = document.getElementById('canvas');
-var ctx = canvas.getContext('2d');
-
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
 var dragging = false;
-
-var posX = canvas.width / 2;
-var posY = canvas.height / 2;
+var posX = 0;
+var posY = 0;
 
 function redraw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -32,6 +25,16 @@ function mouseup(e) {
   dragging = false;
 }
 
-canvas.addEventListener("mousemove", movemove);
-canvas.addEventListener("mousedown", mousedown);
-canvas.addEventListener("mouseup", mouseup);
+window.onload = function() {var canvas = document.getElementById('canvas');
+  var ctx = canvas.getContext('2d');
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  posX = canvas.width / 2;
+  posY = canvas.height / 2;
+
+  canvas.addEventListener("mousemove", mousemove);
+  canvas.addEventListener("mousedown", mousedown);
+  canvas.addEventListener("mouseup", mouseup);
+}
