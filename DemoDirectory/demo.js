@@ -1,21 +1,37 @@
-$(document).ready(function() {
-    var d_canvas = document.getElementById('canvas');
-    var context = d_canvas.getContext('2d');
-    var background = document.getElementById('background');
-    var ballon = document.getElementById('ballon')
-    context.drawImage(background, 0, 0);
+var canvas = document.getElementById('canvas');
+var ctx = canvas.getContext('2d');
 
-    $('#ballon').draggable();
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-    $('#draw').click(function() {
-        var $ballon = $('#ballon'),
-            $canvas = $('#canvas');
-        var ballon_x = $ballon.offset().left - $canvas.offset().left,
-            ballon_y = $ballon.offset().top - $canvas.offset().top;
+var dragging = false;
 
-        context.drawImage(ballon, ballon_x, ballon_y);
+var posX = canvas.width / 2;
+var posY = canvas.height / 2;
 
-        $ballon.hide();
-        $(this).attr('disabled', 'disabled');
-    });
-});
+function redraw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.beginPath();
+  ctx.arc(posX, posY, 10, 0, 2 * Math.PI);
+  ctx.fill();
+}
+
+function mousemove(e) {
+  if(dragging) {
+    posX = e.offsetX;
+    posY = e.offsetY;
+    redraw();
+  }
+}
+
+function mousedown(e) {
+  dragging = true;
+}
+
+function mouseup(e) {
+  dragging = false;
+}
+
+canvas.addEventListener("mousemove", movemove);
+canvas.addEventListener("mousedown", mousedown);
+canvas.addEventListener("mouseup", mouseup);
