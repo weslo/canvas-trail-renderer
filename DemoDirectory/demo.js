@@ -1,20 +1,26 @@
 var canvas, ctx;
 
 var dragging = false;
-var posX = 0;
-var posY = 0;
+var ball = new Point(0, 0);
+
+var line = Array;
+
+var Point = function(x, y) {
+  this.x = x;
+  this.y = y;
+};
 
 function redraw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.beginPath();
-  ctx.arc(posX, posY, 10, 0, 2 * Math.PI);
+  ctx.arc(ball.x, ball.y, 10, 0, 2 * Math.PI);
   ctx.fill();
 }
 
 function mousemove(e) {
   if(dragging) {
-    posX = e.offsetX;
-    posY = e.offsetY;
+    ball.x = e.offsetX;
+    ball.y = e.offsetY;
     redraw();
   }
 }
