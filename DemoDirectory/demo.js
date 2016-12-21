@@ -84,8 +84,8 @@ var TrailRenderer = function(width, time, minVertexDistance = 0.1) {
           var v;
 
           if(next) {
-            var m = new Point((next.x - prev.x) / 2 + prev.x, (next.y - prev.y) / 2 + prev.y);
-            v = new Point(m.x - p.x, m.y - p.y).normalize();
+            var m = new Point(next.y - prev.y, next.x - prev.x).normalize();
+            v = new Point(m.x * p.x, m.y * p.y).normalize();
           }
           else {
             v = new Point(p.y - prev.y, p.x - prev.x).normalize();
