@@ -42,7 +42,6 @@ var TrailRenderer = function(width, time, minVertexDistance = 0.1) {
     if(!last || first.distance(pos) > this.minVertexDistance) {
       this.vertices.push(new Point(pos.x, pos.y));
       this.times.push(timestamp);
-      console.log('push');
     }
 
     if(this.times.length > 0) {
