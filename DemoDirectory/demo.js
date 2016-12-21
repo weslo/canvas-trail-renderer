@@ -4,11 +4,13 @@ var dragging = false;
 
 var ball;
 
+var visualize = true;
+
 var Ball = function() {
   this.pos = new Point(canvas.width / 2, canvas.height / 2);
   this.line = Array;
 
-  this.trail = new TrailRenderer(20, 0.25);
+  this.trail = new TrailRenderer(20, 1000);
 
   this.render = function(ctx) {
     this.trail.render(ctx);
@@ -25,6 +27,17 @@ var Point = function(x, y) {
   this.distance = function(other) {
     return Math.sqrt(Math.pow(other.x - this.x, 2) + Math.pow(other.y - this.y, 2));
   }
+
+  this.magnitude = function() {
+    return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+  }
+
+  this.normalize = function() {
+    var mag = this.magnitude();
+    this.x /= mag;
+    this.y /= mag;
+    return this;
+  }
 };
 
 var TrailRenderer = function(width, time, minVertexDistance = 0.1) {
@@ -32,21 +45,21 @@ var TrailRenderer = function(width, time, minVertexDistance = 0.1) {
   this.time = time;
   this.minVertexDistance = minVertexDistance;
 
-  this.vertices = [];
+  this.points = [];
   this.times = [];
 
   this.update = function(pos, timestamp) {
-    var last = this.vertices[0];
-    var first = this.vertices[this.vertices.length - 1];
+    var last = this.points[0];
+    var first = this.points[this.points.length - 1];
 
     if(!last || first.distance(pos) > this.minVertexDistance) {
-      this.vertices.push(new Point(pos.x, pos.y));
+      this.points.push(new Point(pos.x, pos.y));
       this.times.push(timestamp);
     }
 
     if(this.times.length > 0) {
       while(this.times[0] < timestamp - this.time * 1000) {
-        this.vertices.shift();
+        this.points.shift();
         this.times.shift();
       }
     }
@@ -54,32 +67,54 @@ var TrailRenderer = function(width, time, minVertexDistance = 0.1) {
 
   this.render = function(ctx) {
     ctx.beginPath();
-    if(this.vertices.length > 0) {
-      ctx.moveTo(this.vertices[0].x, this.vertices[0].y);
 
-      var i;
+    if(this.points.length > 0) {
+      ctx.moveTo(this.points[0].x, this.points[0].y);
 
-      for(i = 1; i < this.vertices.length; i++) {
-        var prev = this.vertices[i - 1];
-        var next = this.vertices[i];
-        var x = next.x;
-        var y = next.y - this.evalWidth(i) / 2;
-        ctx.lineTo(x, y);
-      }
+      var vertices = [];
+      this.points.map(function(p, i, points) {
+        var prev = i > 0 ? points[i - 1] : null;
+        var next = i < points.length - 1 ? points[i + 1] : null;
+        var w = this.evalWidth(i) / 2;
 
-      for(i = this.vertices.length - 1; i >= 0; i--) {
-        var prev = this.vertices[i + 1];
-        var next = this.vertices[i];
-        var x = next.x;
-        var y = next.y + this.evalWidth(i) / 2;
-        ctx.lineTo(x, y);
-      }
+        if(!prev) {
+          vertices.push(p);
+        }
+        else {
+          var v;
+
+          if(next) {
+            var m = new Point((next.x - prev.x) / 2 + prev.x, (next.y - prev.y) / 2 + prev.y);
+            v = new Point(m.x - p.x, m.y - p.y).normalize();
+          }
+          else {
+            v = new Point(p.y - prev.y, p.x - prev.x).normalize();
+          }
+          var a = new Point(p.x + v.x * w, p.y + v.y * w);
+          var b = new Point(p.x - v.x * w, p.y - v.y * w);
+
+          vertices.splice(i, 0, a, b);
+        }
+      }, this);
+
+      vertices.map(function(v) {
+        ctx.lineTo(v.x, v.y);
+      });
     }
+
     ctx.stroke();
+
+    if(visualize) {
+      this.points.map(function(p) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 2, 0, 2 * Math.PI);
+        ctx.fill();
+      });
+    }
   }
 
   this.evalWidth = function(index) {
-    return this.width * index / this.vertices.length;
+    return this.width * index / this.points.length;
   }
 };
 
