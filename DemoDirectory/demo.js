@@ -8,7 +8,7 @@ var Ball = function() {
   this.pos = new Point(canvas.width / 2, canvas.height / 2);
   this.line = Array;
 
-  this.trail = new TrailRenderer(1, 1);
+  this.trail = new TrailRenderer(1, 0.25);
 
   this.render = function(ctx) {
     this.trail.render(ctx);
@@ -35,18 +35,17 @@ var TrailRenderer = function(width, time, minVertexDistance = 0.1) {
   this.vertices = [];
   this.times = [];
 
-  this.update = function(pos) {
+  this.update = function(pos, timestamp) {
     var last = this.vertices[0];
     var first = this.vertices[this.vertices.length - 1];
-    var now = Date.now();
 
     if(last == null || last == 'undefined' || last.distance(pos) > this.minVertexDistance) {
       this.vertices.push(new Point(pos.x, pos.y));
-      this.times.push(now);
+      this.times.push(timestamp);
     }
 
     if(this.times.length > 0) {
-      while(this.times[0] < now - this.time * 1000) {
+      while(this.times[0] < timestamp - this.time * 1000) {
         this.vertices.shift();
         this.times.shift();
       }
@@ -74,8 +73,6 @@ function mousemove(e) {
   if(dragging) {
     ball.pos.x = e.offsetX;
     ball.pos.y = e.offsetY;
-    ball.trail.update(ball.pos);
-    redraw();
   }
 }
 
@@ -85,6 +82,12 @@ function mousedown(e) {
 
 function mouseup(e) {
   dragging = false;
+}
+
+function update(timestamp) {
+  ball.trail.update(ball.pos, timestamp);
+  redraw();
+  window.requestAnimationFrame(update);
 }
 
 window.onload = function() {
@@ -103,3 +106,5 @@ window.onload = function() {
 
   redraw();
 }
+
+window.requestAnimationFrame(update);
