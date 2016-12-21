@@ -39,9 +39,10 @@ var TrailRenderer = function(width, time, minVertexDistance = 0.1) {
     var last = this.vertices[0];
     var first = this.vertices[this.vertices.length - 1];
 
-    if(last == null || last == 'undefined' || last.distance(pos) > this.minVertexDistance) {
+    if(!last || first.distance(pos) > this.minVertexDistance) {
       this.vertices.push(new Point(pos.x, pos.y));
       this.times.push(timestamp);
+      console.log('push');
     }
 
     if(this.times.length > 0) {
@@ -67,7 +68,7 @@ var TrailRenderer = function(width, time, minVertexDistance = 0.1) {
         ctx.lineTo(x, y);
       }
 
-      for(i = this.vertices.length - 2; i >= 0; i--) {
+      for(i = this.vertices.length - 1; i >= 0; i--) {
         var prev = this.vertices[i + 1];
         var next = this.vertices[i];
         var x = next.x;
@@ -97,6 +98,8 @@ function mousemove(e) {
 
 function mousedown(e) {
   dragging = true;
+  ball.pos.x = e.offsetX;
+  ball.pos.y = e.offsetY;
 }
 
 function mouseup(e) {
