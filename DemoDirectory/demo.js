@@ -8,7 +8,7 @@ var Ball = function() {
   this.pos = new Point(canvas.width / 2, canvas.height / 2);
   this.line = Array;
 
-  this.trail = new TrailRenderer(1, 0.25);
+  this.trail = new TrailRenderer(10, 0.25);
 
   this.render = function(ctx) {
     this.trail.render(ctx);
@@ -56,11 +56,30 @@ var TrailRenderer = function(width, time, minVertexDistance = 0.1) {
     ctx.beginPath();
     if(this.vertices.length > 0) {
       ctx.moveTo(this.vertices[0].x, this.vertices[0].y);
-      this.vertices.map(function(vert, index) {
-        ctx.lineTo(vert.x, vert.y);
-      });
+
+      var i;
+
+      for(i = 1; i < this.vertices.length; i++) {
+        var prev = this.vertices[i - 1];
+        var next = this.vertices[i];
+        var x = next.x;
+        var y = next.y - this.evalWidth(i) / 2;
+        ctx.lineTo(x, y);
+      }
+
+      for(i = this.vertices.length - 2; i >= 0; i--) {
+        var prev = this.vertices[i + 1];
+        var next = this.vertices[i];
+        var x = next.x;
+        var y = next.y + this.evalWidth(i) / 2;
+        ctx.lineTo(x, y);
+      }
     }
     ctx.stroke();
+  }
+
+  this.evalWidth = function(index) {
+    return this.width * index / this.vertices.length;
   }
 };
 
