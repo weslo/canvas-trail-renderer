@@ -10,7 +10,7 @@ var Ball = function() {
   this.pos = new Point(canvas.width / 2, canvas.height / 2);
   this.line = Array;
 
-  this.trail = new TrailRenderer(20, 1000);
+  this.trail = new TrailRenderer(20, 0.25);
 
   this.render = function(ctx) {
     this.trail.render(ctx);
@@ -84,8 +84,7 @@ var TrailRenderer = function(width, time, minVertexDistance = 0.1) {
           var v;
 
           if(next) {
-            var m = new Point(next.y - prev.y, next.x - prev.x).normalize();
-            v = new Point(m.x * p.x, m.y * p.y).normalize();
+            v = new Point(next.y - prev.y, next.x - prev.x).normalize();
           }
           else {
             v = new Point(p.y - prev.y, p.x - prev.x).normalize();
