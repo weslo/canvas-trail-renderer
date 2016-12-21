@@ -8,7 +8,7 @@ var Ball = function() {
   this.pos = new Point(canvas.width / 2, canvas.height / 2);
   this.line = Array;
 
-  this.trail = new TrailRenderer(10, 0.25);
+  this.trail = new TrailRenderer(20, 0.25);
 
   this.render = function(ctx) {
     this.trail.render(ctx);
