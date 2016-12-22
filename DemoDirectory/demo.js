@@ -78,7 +78,7 @@ var TrailRenderer = function(width, time, minVertexDistance = 10) {
       ctx.moveTo(this.points[0].x, this.points[0].y);
 
       var vertices = [];
-      this.points.map(function(p, i, points) {
+      this.points.forEach(function(p, i, points) {
         var prev = i > 0 ? points[i - 1] : null;
         var next = i < points.length - 1 ? points[i + 1] : null;
         var w = this.evalWidth(i) / 2;
@@ -103,7 +103,7 @@ var TrailRenderer = function(width, time, minVertexDistance = 10) {
 
       vertices.push(vertices[0]);
 
-      vertices.map(function(v) {
+      vertices.forEach(function(v) {
         ctx.lineTo(v.x, v.y);
       });
     }
@@ -116,7 +116,7 @@ var TrailRenderer = function(width, time, minVertexDistance = 10) {
     }
 
     if(visualize) {
-      this.points.map(function(p) {
+      this.points.forEach(function(p) {
         ctx.beginPath();
         ctx.arc(p.x, p.y, 2, 0, 2 * Math.PI);
         ctx.fill();
