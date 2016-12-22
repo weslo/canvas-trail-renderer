@@ -4,7 +4,7 @@ var dragging = false;
 
 var ball;
 
-var visualize = true;
+var visualize = false;
 
 var Ball = function() {
   this.pos = new Point(canvas.width / 2, canvas.height / 2);
@@ -13,6 +13,8 @@ var Ball = function() {
   this.trail = new TrailRenderer(20, 1);
 
   this.render = function(ctx) {
+    ctx.fillStyle = "#4CAF50";
+    ctx.strokeStyle = "#4CAF50";
     this.trail.render(ctx);
     ctx.beginPath();
     ctx.arc(this.pos.x, this.pos.y, 10, 0, 2 * Math.PI);
@@ -106,7 +108,12 @@ var TrailRenderer = function(width, time, minVertexDistance = 10) {
       });
     }
 
-    ctx.stroke();
+    if(visualize) {
+      ctx.stroke();
+    }
+    else {
+      ctx.fill();
+    }
 
     if(visualize) {
       this.points.map(function(p) {
