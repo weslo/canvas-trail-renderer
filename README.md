@@ -2,10 +2,10 @@
 Experimenting with emulating Unity's Trail Renderer component in HTML5 canvas.
 
 ## Try it out!
-http://jsfiddle.net/gh/get/library/pure/Weslo/canvas-trail-renderer/tree/master/DemoDirectory
+https://weslo.github.io/canvas-trail-renderer/
 
 ## Author
-By Wes Rockholz
+Wes Rockholz
 
 @wrockholz
 
