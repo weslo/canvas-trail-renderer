@@ -6,5 +6,7 @@ http://jsfiddle.net/gh/get/library/pure/Weslo/canvas-trail-renderer/tree/master/
 
 ## Author
 By Wes Rockholz
+
 @wrockholz
+
 http://weslo.github.io
