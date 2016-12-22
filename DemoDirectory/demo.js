@@ -91,12 +91,15 @@ var TrailRenderer = function(width, time, minVertexDistance = 10) {
           }
 
           var v = new Point(next.y - prev.y, next.x - prev.x).normalize();
+
           var a = new Point(p.x + v.x * w, p.y + v.y * w);
           var b = new Point(p.x - v.x * w, p.y - v.y * w);
 
           vertices.splice(i, 0, a, b);
         }
       }, this);
+
+      vertices.push(vertices[0]);
 
       vertices.map(function(v) {
         ctx.lineTo(v.x, v.y);
