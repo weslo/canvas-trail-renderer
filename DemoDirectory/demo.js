@@ -44,7 +44,7 @@ var Point = function(x, y) {
   }
 };
 
-var TrailRenderer = function(width, time, minVertexDistance = 0.1) {
+var TrailRenderer = function(width, time, minVertexDistance = 10) {
   this.width = width;
   this.time = time;
   this.minVertexDistance = minVertexDistance;
