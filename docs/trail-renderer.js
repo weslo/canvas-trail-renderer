@@ -209,7 +209,7 @@ window.onload = function() {
   canvas.addEventListener("mouseup", mouseup);
 
   draw();
-}
 
-// Start updating.
-window.requestAnimationFrame(update);
+  // Start updating.
+  window.requestAnimationFrame(update);
+}
